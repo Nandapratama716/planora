@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #f2f7f6;
+  --color-brand-100: #dceae7;
+  --color-brand-200: #b8d5cf;
+  --color-brand-300: #8cb8ad;
+  --color-brand-400: #63998d;
+  --color-brand-500: #497f74;
+  --color-brand-600: #37645c;
+  --color-brand-700: #2f504a;
+  --color-brand-800: #2a423d;
+  --color-brand-900: #253935;
+}
+
+:root {
+  --background: #f5f6f8;
+  --foreground: #13211f;
+  --surface: #ffffff;
+  --muted: #5f6f6b;
+  --brand: #2f504a;
+  --brand-contrast: #e6f3f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle at top right, #dceae7 0%, var(--background) 45%);
+  color: var(--foreground);
+  font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
