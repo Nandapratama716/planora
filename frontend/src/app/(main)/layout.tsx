@@ -1,4 +1,3 @@
-import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import PageWrapper from "@/components/layout/PageWrapper";
 
@@ -11,7 +10,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
     <div className="min-h-screen bg-slate-50">
       <Navbar />
       <PageWrapper>{children}</PageWrapper>
-      <Footer />
     </div>
   );
 }

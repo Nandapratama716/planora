@@ -1,0 +1,16 @@
+{
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
+  "files.exclude": {
+    "**/.next": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/dist": true
+  },
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true
+  }
+}

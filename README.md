@@ -2,174 +2,141 @@
 
 Platform marketplace layanan event.
 
-Saat ini yang sudah siap dijalankan adalah **Backend API** di folder `backend/`. Folder `frontend/` dan `mobile/` masih kosong (TBD).
+## Tentang Project
 
-## Quick Start (Backend)
+Planora adalah platform untuk membantu pengguna menemukan vendor event, mengelola booking, dan memantau proses acara dalam satu aplikasi.
 
-### Persyaratan
+## Fitur Utama
 
-- Node.js 18+ (disarankan: versi LTS terbaru)
-- npm (atau yarn/pnpm)
-- PostgreSQL (local atau hosted)
+### Frontend (Next.js)
 
-### Instalasi & Development
+- Landing page modern dengan section Hero, Brand Trust, Category, How It Works, Features, Testimonial, CTA, dan Footer.
+- Autentikasi user: login, register, lupa password.
+- Halaman utama pengguna: dashboard, events, bookings, profile, dan settings.
+- Halaman admin: manajemen user, event, dan booking.
+- Integrasi API client dengan base URL yang dapat dikonfigurasi lewat env.
 
-```bash
-# Clone repository
-git clone <YOUR_GIT_URL>
+### Backend (Express + Prisma)
 
-# Masuk ke direktori project
-cd planora
-
-# Install dependencies backend
-cd backend
-npm install
-
-# Buat env (isi sesuai database kamu)
-copy .env.example .env
-
-# Prisma
-npx prisma generate
-npx prisma migrate dev --name init
-
-# Jalankan development server
-npm run dev
-```
-
-API akan berjalan di:
-
-- http://localhost:5000/
-
-### Menjalankan dari Root Repo
-
-```bash
-cd ..
-npm run dev
-```
-
-Perintah ini menjalankan backend melalui `npm --prefix backend run dev`.
-
-## Build untuk Production (Backend)
-
-```bash
-cd backend
-
-# build (output: backend/dist)
-npm run build
-
-# start server production
-npm run start
-```
-
-## Environment Variables
-
-File env ada di `backend/.env` (buat dari `backend/.env.example`).
-
-Wajib:
-
-- `PORT` (default `5000`)
-- `DATABASE_URL`
-
-Disarankan:
-
-- `DIRECT_URL` (untuk koneksi direct/non-pooled, sering lebih aman untuk migration)
-
-## Prisma (v7)
-
-Repo ini menggunakan Prisma v7 dengan config file `backend/prisma.config.ts`.
-
-- URL koneksi database diambil dari `.env` lewat `prisma.config.ts`
-- `backend/prisma/schema.prisma` tidak menyimpan `datasource.url` (sesuai Prisma v7)
-
-Perintah berguna:
-
-```bash
-cd backend
-npx prisma validate
-npx prisma generate
-npx prisma migrate dev
-```
-
-## Deploy (Backend)
-
-Backend ini aplikasi Node.js biasa (Express). Kamu bisa deploy ke platform seperti Render/Railway/Fly.io/VPS.
-
-Checklist umum:
-
-- Set environment variables: `DATABASE_URL`, `DIRECT_URL` (opsional), `PORT`
-- Jalankan `npm install`
-- Jalankan `npm run build`
-- Jalankan `npm run start`
+- REST API berbasis Express dengan TypeScript.
+- ORM Prisma untuk akses database PostgreSQL.
+- Struktur siap migration untuk skema database.
+- Konfigurasi env untuk port server dan koneksi database.
 
 ## Tech Stack
 
-Backend:
+### Frontend
 
-- Runtime: Node.js
-- Bahasa: TypeScript
-- Framework: Express
-- Database ORM: Prisma
-- Dev runner: `tsx` (watch mode)
+- Next.js 16
+- React 19 + TypeScript
+- Tailwind CSS 4
+- Zustand (state management)
+- React Query + Axios (fetching dan caching data)
+- NextAuth (autentikasi)
 
-Frontend / Mobile: belum ada (TBD).
+### Backend
 
-## Struktur Repo
+- Node.js + TypeScript
+- Express 5
+- Prisma 7
+- PostgreSQL
 
-- `backend/` — Node.js + TypeScript API (Express) + Prisma
-- `frontend/` — Frontend (belum ada / TBD)
-- `mobile/` — Mobile client (belum ada / TBD)
-- `docs/` — Catatan setup / panduan
+### Tooling
 
-## Kontribusi / Panduan Fork
+- npm
+- tsx (watch mode backend)
+- TypeScript compiler
 
-### 1) Fork di GitHub
+## Panduan Clone Repo dan Menjalankan Frontend
 
-1. Buka repository ini di GitHub
-2. Klik **Fork** (pojok kanan atas)
-3. Pilih akun / organisasi kamu
+### Persyaratan
 
-### 2) Clone hasil fork
+- Node.js 18+ (disarankan LTS terbaru)
+- npm
+
+### 1. Clone repository
 
 ```bash
-git clone https://github.com/<your-username>/planora.git
+git clone https://github.com/Nandapratama716/planora.git
 cd planora
 ```
 
-### 3) Tambahkan upstream (opsional tapi disarankan)
+### 2. Masuk ke folder frontend dan install dependency
 
 ```bash
-git remote add upstream https://github.com/Nandapratama716/planora.git
-git remote -v
+cd frontend
+npm install
 ```
 
-### 4) Buat feature branch
+### 3. (Opsional) Atur URL backend untuk frontend
+
+Frontend menggunakan nilai default `http://localhost:5000` jika env belum diatur.
+
+Jika backend kamu berjalan di URL lain, buat file `.env.local` di folder `frontend`:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+```
+
+### 4. Jalankan frontend
 
 ```bash
-git checkout -b feat/<short-name>
+npm run dev
 ```
 
-### 5) Update fork kamu
+Buka di browser:
+
+- <http://localhost:3000>
+
+Catatan: jika port 3000 sudah dipakai proses lain, Next.js otomatis pindah ke port lain (misal 3001).
+
+## Menjalankan Backend (Opsional, untuk data API)
+
+Jika kamu juga ingin frontend terhubung ke API lokal:
 
 ```bash
-git fetch upstream
-git checkout main
-git merge upstream/main
-git push origin main
+cd ../backend
+npm install
+copy .env.example .env
+npx prisma generate
+npx prisma migrate dev --name init
+npm run dev
 ```
 
-### 6) Buat Pull Request
+API default berjalan di:
 
-1. Push branch kamu: `git push -u origin feat/<short-name>`
-2. Buka GitHub lalu buat Pull Request ke `Nandapratama716/planora:main`
+- <http://localhost:5000>
 
-## Troubleshooting
+## Struktur Repo
 
-### Prisma migrate gagal (credential)
+- `backend/` - Node.js + TypeScript API (Express) + Prisma
+- `frontend/` - Next.js app (React + TypeScript + Tailwind)
+- `mobile/` - Mobile client
+- `docs/` - Catatan setup / panduan
 
-- Cek lagi nilai `DATABASE_URL` / `DIRECT_URL` di `backend/.env`
-- Jalankan ulang: `npx prisma generate`
+## Troubleshooting Singkat
 
-### Error import ESM (NodeNext)
+### README tidak bisa dibuka / terasa lambat
 
-Backend ini menggunakan ESM (`backend/package.json` memiliki `"type": "module"`).
-Saat mengimpor file lokal di TypeScript, gunakan ekstensi `.js` pada import path (contoh: `import x from "./x.js"`).
+Jika file README terasa lambat dibuka di VS Code, biasanya penyebabnya bukan isi README, tetapi indexing folder build dan dependency besar di workspace.
+
+Yang bisa dilakukan:
+
+- Tutup tab preview markdown yang tidak dipakai.
+- Pastikan folder generated seperti `.next` tidak di-index watcher/search.
+- Reload VS Code setelah build besar (`Developer: Reload Window`).
+- Hindari membuka workspace saat proses dev server ganda masih berjalan.
+
+### Frontend gagal jalan karena Next.js dev server ganda
+
+Jika muncul pesan `Another next dev server is already running`, hentikan proses lama lalu jalankan ulang:
+
+```bash
+taskkill /PID <PID_YANG_MUNCUL> /F
+npm run dev
+```
+
+### Frontend tidak bisa call API
+
+- Pastikan backend berjalan.
+- Pastikan `NEXT_PUBLIC_API_BASE_URL` sesuai URL backend kamu.

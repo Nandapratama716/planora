@@ -37,6 +37,10 @@ body {
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--color-brand-bg);
   color: var(--color-brand-dark);
