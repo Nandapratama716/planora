@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 const config: Config = {
   content: [
@@ -8,6 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        "brand-dark": "#2A2A2A",
+        "brand-peach": "#FCE6E3",
+        "brand-peachHover": "#F8D8D3",
+        "brand-gray": "#A8A8A8",
+        "brand-bg": "#FAFAFC",
         brand: {
           50: "#f2f7f6",
           100: "#dceae7",
@@ -20,7 +26,10 @@ const config: Config = {
           800: "#2a423d",
           900: "#253935"
         }
-      }
+      },
+      fontFamily: {
+        sans: ["var(--font-plus-jakarta-sans)", ...defaultTheme.fontFamily.sans],
+      },
     },
   },
   plugins: [],

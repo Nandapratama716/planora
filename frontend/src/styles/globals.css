@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 @theme {
+  --color-brand-dark: #2a2a2a;
+  --color-brand-peach: #fce6e3;
+  --color-brand-peachHover: #f8d8d3;
+  --color-brand-gray: #a8a8a8;
+  --color-brand-bg: #fafafc;
   --color-brand-50: #f2f7f6;
   --color-brand-100: #dceae7;
   --color-brand-200: #b8d5cf;
@@ -33,9 +38,8 @@ body {
 }
 
 body {
-  background: radial-gradient(circle at top right, #dceae7 0%, var(--background) 45%);
-  color: var(--foreground);
-  font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+  background: var(--color-brand-bg);
+  color: var(--color-brand-dark);
 }
 
 a {
