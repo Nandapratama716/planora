@@ -1,17 +1,17 @@
-import AdminNav from "@/components/admin/AdminNav";
-import Sidebar from "@/components/layout/Sidebar";
+import type { ReactNode } from "react";
+import AdminSidebar from "@/components/admin/AdminSidebar";
 
 type AdminLayoutProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
-    <div className="grid min-h-screen grid-cols-1 bg-slate-100 lg:grid-cols-[260px_1fr]">
-      <Sidebar>
-        <AdminNav />
-      </Sidebar>
-      <main className="p-6 lg:p-10">{children}</main>
+    <div className="flex h-screen w-full bg-[#F9FAFB] font-sans overflow-hidden relative">
+      <AdminSidebar />
+      <main className="flex-1 flex flex-col h-full overflow-hidden relative bg-[#FAFAFC]">
+        {children}
+      </main>
     </div>
   );
 }

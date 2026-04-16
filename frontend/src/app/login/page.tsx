@@ -75,7 +75,7 @@ export default function LoginPage() {
         admin: {
             email: 'admin@planora.dev',
             password: 'devadmin123',
-            callbackUrl: '/admin',
+            callbackUrl: '/admin/dashboard',
         },
     } as const;
 
@@ -128,12 +128,11 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen min-h-dvh w-full flex flex-col md:flex-row bg-[#FAFAFC]">
+        <div className="min-h-dvh w-full flex flex-col md:flex-row bg-[#FAFAFC]">
 
             {/* Kolom Kiri: Branding & Testimoni (Dengan Background Image) */}
             <div
-                className="w-full md:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-between relative overflow-hidden bg-cover bg-center"
-                style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2048&auto=format&fit=crop")' }}
+                className="w-full md:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-between relative overflow-hidden bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2048&auto=format&fit=crop')]"
             >
 
                 {/* Overlay Pink Transparan */}
