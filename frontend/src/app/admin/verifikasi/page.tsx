@@ -1,10 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import AdminHeader from '@/components/admin/AdminHeader';
 
-const SearchIcon = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
-);
 const MapPinIcon = ({ className }: { className?: string }) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
 );
@@ -84,32 +82,9 @@ function VendorCard({
 }
 
 export default function AdminVerifikasiVendorPage() {
-    const [showLogoutModal, setShowLogoutModal] = useState(false);
-
     return (
         <div className="flex-1 flex flex-col h-full overflow-hidden relative bg-[#FAFAFC]">
-            <header className="h-[90px] bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-10 sticky top-0 z-10 flex-shrink-0">
-                <div className="relative w-full max-w-[400px]">
-                    <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                        type="text"
-                        placeholder="CARI VENDOR YANG MENDAFTAR..."
-                        className="w-full bg-[#F4F4F5] rounded-full py-2.5 pl-11 pr-4 text-[10px] font-bold tracking-widest text-[#2A2A2A] placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-200 transition-all"
-                    />
-                </div>
-
-                <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-3">
-                        <div className="flex flex-col text-right">
-                            <span className="text-[11px] font-extrabold text-[#2A2A2A] tracking-wider uppercase">ADMIN PLANORA</span>
-                            <span className="text-[8px] font-bold tracking-[0.15em] text-[#A8A8A8] uppercase">ROOT ACCESS</span>
-                        </div>
-                        <div className="w-10 h-10 rounded-full bg-[#2A2A2A] text-white flex items-center justify-center font-bold text-sm shadow-sm">
-                            A
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <AdminHeader searchPlaceholder="CARI VENDOR YANG MENDAFTAR..." />
 
             <div className="flex-1 overflow-y-auto p-10 pb-16">
                 <div className="max-w-[1100px] mx-auto">
@@ -161,22 +136,6 @@ export default function AdminVerifikasiVendorPage() {
                     </div>
                 </div>
             </div>
-
-            {showLogoutModal && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#2A2A2A]/80 backdrop-blur-sm transition-all duration-300">
-                    <div className="bg-white rounded-[2rem] p-8 md:p-10 w-full max-w-[380px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] flex flex-col items-center text-center transform scale-100 opacity-100 transition-all">
-                        <div className="w-16 h-16 bg-[#FDF1F0] border border-[#FCE6E3] shadow-inner rounded-[1.25rem] flex items-center justify-center mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-[#EF4444] ml-1"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
-                        </div>
-                        <h3 className="text-2xl font-black italic tracking-tighter text-[#2A2A2A] uppercase mb-2">Keluar Akun</h3>
-                        <p className="text-[10px] font-bold tracking-wider text-[#A8A8A8] uppercase mb-8 leading-relaxed">Apakah Anda yakin ingin keluar dari <br /> Admin Command Planora?</p>
-                        <div className="flex flex-col w-full gap-3">
-                            <a href="/login" className="w-full flex justify-center items-center py-4 rounded-xl bg-[#EF4444] text-white text-[10px] font-bold tracking-widest uppercase hover:bg-red-600 transition-colors shadow-lg shadow-red-500/20">YA, KELUAR SEKARANG</a>
-                            <button onClick={() => setShowLogoutModal(false)} className="w-full py-4 rounded-xl bg-white border-2 border-gray-100 text-[#A8A8A8] hover:text-[#2A2A2A] hover:border-gray-300 text-[10px] font-bold tracking-widest uppercase transition-colors">BATAL</button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

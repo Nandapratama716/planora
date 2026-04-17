@@ -116,10 +116,9 @@ export default function RegisterPage() {
   const [accountType, setAccountType] = useState<'pelanggan' | 'vendor'>('vendor');
 
   return (
-    <div className="min-h-screen min-h-dvh w-full flex flex-col md:flex-row bg-[#FAFAFC] font-sans">
+    <div className="min-h-dvh w-full flex flex-col md:flex-row bg-[#FAFAFC] font-sans">
       <div
-        className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-between relative overflow-hidden bg-cover bg-center"
-        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2048&auto=format&fit=crop")' }}
+        className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-between relative overflow-hidden bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2048&auto=format&fit=crop')]"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-[#FCE6E3]/75 to-[#F9D2CF]/75 z-0 backdrop-blur-[2px]"></div>
 

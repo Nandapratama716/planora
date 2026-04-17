@@ -39,14 +39,15 @@ const navGroups: Array<{ title: string; items: NavItem[] }> = [
         items: [
             { href: '/admin/dashboard', label: 'DASHBOARD', icon: GridIcon, activeMatch: ['/admin/dashboard'] },
             { href: '/admin/verifikasi', label: 'VERIFIKASI VENDOR', icon: ShieldCheckIcon, activeMatch: ['/admin/verifikasi'] },
+            { href: '/admin/manajemen-user', label: 'MANAJEMEN USER', icon: UsersIcon, activeMatch: ['/admin/manajemen-user'] },
         ],
     },
     {
         title: 'OPERATIONS',
         items: [
-            { href: '/admin/bookings', label: 'MONITORING TRX', icon: ActivityIcon, activeMatch: ['/admin/bookings'] },
-            { href: '/admin/events', label: 'KATEGORI JASA', icon: LayersIcon, activeMatch: ['/admin/events'] },
-            { href: '/admin/dashboard', label: 'SISTEM CONFIG', icon: SettingsIcon, activeMatch: ['/admin/dashboard'] },
+            { href: '/admin/monitoring', label: 'MONITORING TRX', icon: ActivityIcon, activeMatch: ['/admin/monitoring'] },
+            { href: '/admin/kategori-jasa', label: 'KATEGORI JASA', icon: LayersIcon, activeMatch: ['/admin/kategori-jasa'] },
+            { href: '/admin/pengaturan', label: 'SISTEM CONFIG', icon: SettingsIcon, activeMatch: ['/admin/pengaturan'] },
         ],
     },
 ];
