@@ -127,13 +127,24 @@ class _FavoritScreenState extends State<FavoritScreen> {
                         itemCount: _favorites.length,
                         itemBuilder: (context, index) {
                           final item = _favorites[index];
-                          return _buildFavoriteCard(
-                            name: item['name'] ?? 'Vendor Name',
-                            category: item['category'] ?? 'Kategori',
-                            price: 'Rp ${item['price'] ?? 0}',
-                            imageUrl:
-                                item['imageUrl'] ??
-                                'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=200&auto=format&fit=crop',
+                          final itemId =
+                              item['id']?.toString() ??
+                              item['_id']?.toString() ??
+                              '1';
+                          return GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              '/detail_booking',
+                              arguments: itemId,
+                            ),
+                            child: _buildFavoriteCard(
+                              name: item['name'] ?? 'Vendor Name',
+                              category: item['category'] ?? 'Kategori',
+                              price: 'Rp ${item['price'] ?? 0}',
+                              imageUrl:
+                                  item['imageUrl'] ??
+                                  'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=200&auto=format&fit=crop',
+                            ),
                           );
                         },
                       ),

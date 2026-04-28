@@ -14,6 +14,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
   List<dynamic> _recommendations = [];
   bool _isLoading = true;
 
+  String _searchQuery = '';
+  String _selectedCategory = '';
+
+  List<dynamic> get _filteredRecommendations {
+    return _recommendations.where((item) {
+      final name = item['name']?.toString().toLowerCase() ?? '';
+      // Map category name slightly if needed, or exact match
+      final category = item['category']?.toString().toLowerCase() ?? '';
+
+      final matchesSearch =
+          _searchQuery.isEmpty || name.contains(_searchQuery.toLowerCase());
+      // Untuk Kategori "Semua", kita cek kosongan. Untuk "Lainnya", etc.
+      // Di API biasanya kategori di set "Gedung", "Katering", dsb.
+      final matchesCategory =
+          _selectedCategory.isEmpty ||
+          category == _selectedCategory.toLowerCase();
+
+      return matchesSearch && matchesCategory;
+    }).toList();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -90,6 +111,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
                 // Search Bar
                 TextField(
+                  onChanged: (val) => setState(() => _searchQuery = val),
                   decoration: InputDecoration(
                     hintText: 'Cari gedung, katering...',
                     hintStyle: const TextStyle(color: Colors.grey),
@@ -136,7 +158,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 // Area Dynamic Data dari Backend
                 _isLoading
                     ? const Center(child: CircularProgressIndicator())
-                    : _recommendations.isEmpty
+                    : _filteredRecommendations.isEmpty
                     ? const Center(
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 40.0),
@@ -152,10 +174,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     : ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _recommendations.length,
+                        itemCount: _filteredRecommendations.length,
                         itemBuilder: (context, index) {
-                          final item = _recommendations[index];
+                          final item = _filteredRecommendations[index];
                           return _buildRecommendationCard(
+                            id: item['id']?.toString() ?? '1',
                             name: item['name'] ?? 'Layanan',
                             category: item['category'] ?? 'Kategori',
                             price: 'Rp ${item['price'] ?? 0}',
@@ -163,6 +186,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             imageUrl:
                                 item['imageUrl'] ??
                                 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=200&auto=format&fit=crop',
+                            context: context,
                           );
                         },
                       ),
@@ -271,111 +295,128 @@ class _ExploreScreenState extends State<ExploreScreen> {
     Color bgColor,
     String label,
   ) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircleAvatar(
-          radius: 28,
-          backgroundColor: bgColor,
-          child: Icon(icon, color: iconColor, size: 28),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF555555),
+    bool isSelected = _selectedCategory == label;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedCategory = isSelected ? '' : label;
+        });
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 28,
+            backgroundColor: isSelected
+                ? iconColor.withValues(alpha: 0.3)
+                : bgColor,
+            child: Icon(icon, color: iconColor, size: 28),
           ),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ],
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+              color: isSelected ? iconColor : const Color(0xFF555555),
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 
   // Komponen Card Rekomendasi
   Widget _buildRecommendationCard({
+    required String id,
     required String name,
     required String category,
     required String price,
     required String rating,
     required String imageUrl,
+    required BuildContext context,
   }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFF0F0F0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha(13),
-            blurRadius: 10,
-            spreadRadius: 1,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.network(
-              imageUrl,
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/detail_booking', arguments: id);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFF0F0F0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withAlpha(13),
+              blurRadius: 10,
+              spreadRadius: 1,
+              offset: const Offset(0, 4),
             ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+          ],
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.network(
+                imageUrl,
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  category,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      price,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF00C853),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 16),
-                        const SizedBox(width: 4),
-                        Text(
-                          rating,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                          ),
+                  const SizedBox(height: 4),
+                  Text(
+                    category,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        price,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF00C853),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 16),
+                          const SizedBox(width: 4),
+                          Text(
+                            rating,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
