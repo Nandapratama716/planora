@@ -96,16 +96,21 @@ class _ProfilScreenState extends State<ProfilScreen> {
                             color: Color(0xFF333333),
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFFAFAFA),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.settings,
-                            color: Colors.grey,
-                            size: 20,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/pengaturan');
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFFAFAFA),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.settings,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
                           ),
                         ),
                       ],
@@ -255,47 +260,63 @@ class _ProfilScreenState extends State<ProfilScreen> {
     required String title,
     bool isRedText = false,
   }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFF0F0F0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha(13),
-            blurRadius: 10,
-            spreadRadius: 1,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: iconBgColor,
-              shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: () {
+        if (title == 'Chat Vendor') {
+          Navigator.pushNamed(
+            context,
+            '/chat_list',
+          ); // Diarahkan ke Daftar Chat (akan kita buat atau ke single chat)
+        } else if (title == 'Riwayat Booking') {
+          Navigator.pushNamed(context, '/riwayat');
+        } else if (title == 'Daftar Pembayaran') {
+          Navigator.pushNamed(context, '/pembayaran');
+        } else if (title == 'Kalender Acara') {
+          Navigator.pushNamed(context, '/kalender');
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFF0F0F0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withAlpha(13),
+              blurRadius: 10,
+              spreadRadius: 1,
+              offset: const Offset(0, 4),
             ),
-            child: Icon(icon, color: iconColor, size: 20),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: isRedText
-                    ? const Color(0xFFE53935)
-                    : const Color(0xFF333333),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: iconBgColor,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: iconColor, size: 20),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: isRedText
+                      ? const Color(0xFFE53935)
+                      : const Color(0xFF333333),
+                ),
               ),
             ),
-          ),
-          const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
-        ],
+            const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+          ],
+        ),
       ),
     );
   }
